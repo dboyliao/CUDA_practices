@@ -8,6 +8,7 @@
 The whitepaper is normally organized as follows:
 - Introduction (New Features)
 - Architecture (SM, CUDA Cores, Memory)
+    - ex: "GV100 GPU Hardware Architecture In-Depth"
 - Performance Benchmark (FLOPS, Memory Bandwidth)
 - Technical Specifications (Clock Speed, Memory Size)
 
