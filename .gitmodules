@@ -1,3 +1,6 @@
 [submodule "submodules/CUDA_Course"]
 	path = submodules/CUDA_Course
 	url = https://github.com/hamdysoltan/CUDA_Course
+[submodule "submodules/nv-cuda-samples"]
+	path = submodules/nv-cuda-samples
+	url = git@github.com:NVIDIA/cuda-samples.git
