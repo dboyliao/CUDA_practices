@@ -1,3 +1,5 @@
+#include "cuda_runtime.h"
+
 #include <stdio.h>
 
 __global__ void cuda_hello()
@@ -8,6 +10,6 @@ __global__ void cuda_hello()
 int main()
 {
     cuda_hello<<<1, 1>>>();
-    cudaDeviceSynchronize(); // Wait for the GPU launched work to complete
+    ::cudaDeviceSynchronize(); // Wait for the GPU launched work to complete
     return 0;
 }

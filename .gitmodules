@@ -1,0 +1,3 @@
+[submodule "submodules/CUDA_Course"]
+	path = submodules/CUDA_Course
+	url = https://github.com/hamdysoltan/CUDA_Course
