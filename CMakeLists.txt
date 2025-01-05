@@ -13,3 +13,7 @@ separate_arguments(PYBIND11_INCLUDES)
 message(STATUS "PYBIND11_INCLUDES: ${PYBIND11_INCLUDES}")
 
 add_executable(hello_cuda hello_cuda.cu)
+add_executable(
+    section3_001
+    ${CMAKE_SOURCE_DIR}/submodules/CUDA_Course/section3_001.cu
+)
