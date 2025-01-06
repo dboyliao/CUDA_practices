@@ -36,9 +36,9 @@ py::array_t<int> vec_add_naive_int(py::array_t<int> arr_a, py::array_t<int> arr_
     int *ptr_result = (int *)buf_result.ptr;
 
     int *d_a, *d_b, *d_result;
-    cudaMalloc(&d_a, buf_a.size * sizeof(int));
-    cudaMalloc(&d_b, buf_b.size * sizeof(int));
-    cudaMalloc(&d_result, buf_result.size * sizeof(int));
+    cudaMalloc((void **)&d_a, buf_a.size * sizeof(int));
+    cudaMalloc((void **)&d_b, buf_b.size * sizeof(int));
+    cudaMalloc((void **)&d_result, buf_result.size * sizeof(int));
 
     cudaMemcpy(d_a, ptr_a, buf_a.size * sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(d_b, ptr_b, buf_b.size * sizeof(int), cudaMemcpyHostToDevice);
@@ -51,7 +51,7 @@ py::array_t<int> vec_add_naive_int(py::array_t<int> arr_a, py::array_t<int> arr_
         int add_cnt = remain_cnt > chunk_size ? chunk_size : remain_cnt;
         int offset = idx * chunk_size;
         kernel_vec_add<<<1, chunk_size>>>(d_a + offset, d_b + offset, d_result + offset, add_cnt);
-        // cudaDeviceSynchronize();
+        cudaDeviceSynchronize();
         remain_cnt -= chunk_size;
         idx++;
     }
