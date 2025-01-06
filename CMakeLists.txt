@@ -32,3 +32,8 @@ pybind11_add_module(
     py_vec_add
     cuda_src/py_vec_add.cu
 )
+set_target_properties(
+    py_vec_add
+    PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
