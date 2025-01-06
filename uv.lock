@@ -156,6 +156,7 @@ dependencies = [
 dev = [
     { name = "black" },
     { name = "ipykernel" },
+    { name = "ipython" },
     { name = "isort" },
 ]
 
@@ -169,6 +170,7 @@ requires-dist = [
 dev = [
     { name = "black", specifier = ">=24.10.0" },
     { name = "ipykernel", specifier = ">=6.29.5" },
+    { name = "ipython", specifier = ">=8.31.0" },
     { name = "isort", specifier = ">=5.13.2" },
 ]
 

@@ -4,7 +4,11 @@
 
 __global__ void cuda_hello()
 {
-    printf("Hello World from GPU!\n");
+#pragma unroll
+    for (int i = 0; i < 3; i++)
+    {
+        printf("Hello World from GPU!\n");
+    }
 }
 
 int main()
