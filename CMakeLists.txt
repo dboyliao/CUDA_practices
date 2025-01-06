@@ -22,13 +22,13 @@ message(STATUS "python interpretor: ${Python_EXECUTABLE}")
 message(STATUS "python includes: ${Python_INCLUDE_DIRS}")
 message(STATUS "python libs: ${Python_LIBRARIES}")
 
-add_executable(hello_cuda hello_cuda.cu)
-add_executable(cuda_print_grid cuda_print_grid.cu)
+add_executable(hello_cuda cuda_src/hello_cuda.cu)
+add_executable(cuda_print_grid cuda_src/cuda_print_grid.cu)
 add_executable(
     section3_001
     ${CMAKE_SOURCE_DIR}/submodules/CUDA_Course/section3_001.cu
 )
 pybind11_add_module(
     py_vec_add
-    py_vec_add.cu
+    cuda_src/py_vec_add.cu
 )

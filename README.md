@@ -1,3 +1,25 @@
+# Build
+I use CMake to build the project. Please make sure you have installed CMake and CUDA Toolkit.
+I also use `uv` to manage the Python dependencies and virtual environment. Please make sure you have installed it as well.
+
+The CMake file is configured to build against the Python virtual environment that is created by `uv`. You have to setup the virtual environment before building the project.
+
+If you don't want to use `uv`, you have to modify the CMake file to compile against the proper Python runtime.
+
+## Python Dependencies
+```bash
+$ uv venv
+$ uv sync --dev
+```
+
+## CMake Build
+```bash
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+```
+
 # CUDA C++ Programming
 - `<<<...>>>`: a kernel launch configuration
    - `<<< num_blocks, num_threads_per_block, shared_memory_size >>>`
