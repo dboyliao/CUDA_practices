@@ -1,2 +1,2 @@
 memcheck-vec-add:
-	compute-sanitizer --tool memcheck python3 test.py
+	uv run compute-sanitizer --tool memcheck python3 test.py
