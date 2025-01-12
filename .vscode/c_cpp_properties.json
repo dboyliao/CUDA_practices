@@ -3,9 +3,10 @@
         {
             "name": "Linux",
             "includePath": [
-                "${default}",
                 "${env:CUDA_HOME}/include/**/*",
-                "${workspaceFolder}/.venv/**/*"
+                "${env:CUDA_HOME}/targets/**/*",
+                "${workspaceFolder}/.venv/**/*",
+                "${default}"
             ],
             "defines": [],
             "compilerPath": "nvcc",
