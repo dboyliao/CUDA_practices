@@ -24,6 +24,12 @@ $ make
 - `<<<...>>>`: a kernel launch configuration
    - `<<< num_blocks, num_threads_per_block, shared_memory_size >>>`
    - `shared_memory_size` is optional
+- Dimension of the grid and block:
+    - `gridDim`: the number of blocks in the grid
+        - use `blockIdx` to access the block index in the grid
+    - `blockDim`: the number of threads per block
+        - use `threadIdx` to access the thread index in the block
+- a warp is a group of 32 threads that are executed in lockstep
 - `__global__`: a function that runs on the device and can be called from the host
 - `__device__`: a function that runs on the device and can be called from the device
 - Application devided into blocks, blocks devided into wraps. Wraps will be mapped to SMs.
