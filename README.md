@@ -40,6 +40,34 @@ $ make
     - `__shared__`: a variable that is shared among threads in the same block
     - https://developer.nvidia.com/blog/using-shared-memory-cuda-cc/
 
+# CUDA Computing Model
+- Host: CPU
+- Device: GPU
+- Software
+    - Grid: a group of blocks
+    - Block: a group of threads that can cooperate with each other
+    - Thread: a single execution unit
+- Hardware
+    - Grid is executed on the device
+    - Block is executed on the Streaming Multiprocessor (SM)
+        - Each SM has a fixed number of partitions
+        - Threads in a block are grouped into warps and each partition can execute a warp
+        - Warp scheduler schedules the warps to the partitions
+    - Thread is executed on the CUDA core
+        - the threads are executed in a SIMD fashion
+- Occupancy: the ratio of active warps to the maximum number of warps that can be executed
+    - The occupancy is a key factor that affects the performance of the GPU
+    - The theoraetical occupancy can be calculated as follows:
+        - `occupancy = active_warps / max_warps_per_SM`
+            - `max_warps_per_SM = max_threads_per_SM / warp_size`
+            - the `max_threads_per_SM` is the maximum number of threads that can be executed on the SM. It is determined by the GPU specifications.
+        - `active_warps = num_threads_per_block / warp_size`
+        - `num_threads_per_block = blockDim.x * blockDim.y * blockDim.z`
+        - `warp_size = 32`
+    - However, the achieved occupancy may be lower than the theoretical occupancy. This may be due to multiple factors such as the number of registers used by the kernel, the amount of shared memory used by the kernel, and the number of threads per block. Also, the cache and memory access patterns may affect the occupancy.
+    - In order to maximize the occupancy, ideally the number of threads per block should be a multiple of the warp size, and the number of blocks should be a multiple of the number of SMs.
+    - See `cuda_src/cuda_runtime_api.cu` for an example how to query the device properties at runtime.
+
 # Tools
 - CUDA-gdb: a debugger for CUDA programs
 - Nsight: a profiler for CUDA programs

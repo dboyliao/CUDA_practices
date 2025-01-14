@@ -18,7 +18,9 @@ int main(int argc, char const *argv[])
         printf("  Shared memory per block: %lu bytes\n", deviceProp.sharedMemPerBlock);
         printf("  Registers per block: %d\n", deviceProp.regsPerBlock);
         printf("  Warp size: %d\n", deviceProp.warpSize);
+        printf("  Max warps per multiprocessor: %d\n", deviceProp.maxThreadsPerMultiProcessor / deviceProp.warpSize);
         printf("  Max threads per block: %d\n", deviceProp.maxThreadsPerBlock);
+        printf("  Max threads per multiprocessor: %d\n", deviceProp.maxThreadsPerMultiProcessor);
         printf("  Max threads dimensions: (%d, %d, %d)\n", deviceProp.maxThreadsDim[0], deviceProp.maxThreadsDim[1], deviceProp.maxThreadsDim[2]);
         printf("  Max grid size: (%d, %d, %d)\n", deviceProp.maxGridSize[0], deviceProp.maxGridSize[1], deviceProp.maxGridSize[2]);
         printf("  Clock rate: %d kHz\n", deviceProp.clockRate);
