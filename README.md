@@ -67,6 +67,23 @@ $ make
     - However, the achieved occupancy may be lower than the theoretical occupancy. This may be due to multiple factors such as the number of registers used by the kernel, the amount of shared memory used by the kernel, and the number of threads per block. Also, the cache and memory access patterns may affect the occupancy.
     - In order to maximize the occupancy, ideally the number of threads per block should be a multiple of the warp size, and the number of blocks should be a multiple of the number of SMs.
     - See `cuda_src/cuda_runtime_api.cu` for an example how to query the device properties at runtime.
+- Allocated Active Blocks: the number of blocks that are allocated to the SM
+    - Max Thread Blocks per SM: the maximum number of blocks that can be allocated to the SM
+    - Max Warps per SM: the maximum number of warps that can be executed
+        - this also defines the maximum number of threads that can be executed on the SM
+        - As a result, the warps limit controls the number of blocks that can be allocated to the SM
+            - the compiler may adjust the number of blocks allocated to the SM to meet the warps limit
+            - See the "Block Limit Wraps" in Occupancy section of the `ncu` profiler output
+        - It's crutial to know that all the blocks are distributed accross the SMs
+    - Max registers per SM: the maximum number of registers that can be used by the threads in the SM
+        - if the total number of registers used by the threads in a block exceeds this limit, the cuda program will use the local memory instead of the registers. This is called "register spilling" and will affect the performance.
+    - With `ncu` profiler, you can find the limit of the number of blocks that can be allocated to the SM
+        - under the `Occupancy` section, you can find
+            - `Block Limit SM`: the limit of blocks according to the SMs limit
+            - `Block Limit Warps`: the limit of blocks according to the warps limit
+            - `Block Limit Registers`: the limit of blocks according to the registers limit
+            - `Block Limit Shared Memory`: the limit of blocks according to the shared memory limit
+
 
 # Tools
 - CUDA-gdb: a debugger for CUDA programs
@@ -99,3 +116,5 @@ The whitepaper is normally organized as follows:
 - Debugging in VSCode: https://www.youtube.com/watch?v=gN3XeFwZ4ng
 - Optimal Blocksize: https://forums.developer.nvidia.com/t/how-to-choose-how-many-threads-blocks-to-have/55529
 - [1D, 2D and 3D thread allocation in CUDA](https://erangad.medium.com/1d-2d-and-3d-thread-allocation-for-loops-in-cuda-e0f908537a52)
+- https://siboehm.com/articles/22/CUDA-MMM
+- https://medium.com/@limyoonaxi/introduction-to-cuda-optimization-with-practical-examples-707e5b06bef8
