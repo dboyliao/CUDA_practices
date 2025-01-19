@@ -39,6 +39,11 @@ $ make
     - `__syncthreads()`: a barrier that synchronizes threads in the same block
     - `__shared__`: a variable that is shared among threads in the same block
     - https://developer.nvidia.com/blog/using-shared-memory-cuda-cc/
+- Error Handling
+    - `cudaGetLastError()`: returns the last error that occured
+        - normally used to check if there is an error after a kernel launch
+    - `cudaGetErrorString(cudaError_t err)`: returns the error string
+    - `cudaError_t`: an error code
 
 # CUDA Computing Model
 - Host: CPU

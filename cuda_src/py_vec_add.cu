@@ -4,6 +4,13 @@
 
 namespace py = pybind11;
 
+#define CUDA_CHECK_ERROR(err)                                                                       \
+    if (err != cudaSuccess)                                                                         \
+    {                                                                                               \
+        fprintf(stderr, "CUDA error in %s:%d: %s.\n", __FILE__, __LINE__, cudaGetErrorString(err)); \
+        exit(1);                                                                                    \
+    }
+
 __global__ void kernel_vec_add(int *a, int *b, int *c, int n)
 {
     int i = threadIdx.x;
@@ -36,12 +43,13 @@ py::array_t<int> vec_add_naive_int(py::array_t<int> arr_a, py::array_t<int> arr_
     int *ptr_result = (int *)buf_result.ptr;
 
     int *d_a, *d_b, *d_result;
-    cudaMalloc((void **)&d_a, buf_a.size * sizeof(int));
-    cudaMalloc((void **)&d_b, buf_b.size * sizeof(int));
-    cudaMalloc((void **)&d_result, buf_result.size * sizeof(int));
 
-    cudaMemcpy(d_a, ptr_a, buf_a.size * sizeof(int), cudaMemcpyHostToDevice);
-    cudaMemcpy(d_b, ptr_b, buf_b.size * sizeof(int), cudaMemcpyHostToDevice);
+    CUDA_CHECK_ERROR(cudaMalloc((void **)&d_a, buf_a.size * sizeof(int)));
+    CUDA_CHECK_ERROR(cudaMalloc((void **)&d_b, buf_b.size * sizeof(int)));
+    CUDA_CHECK_ERROR(cudaMalloc((void **)&d_result, buf_result.size * sizeof(int)));
+
+    CUDA_CHECK_ERROR(cudaMemcpy(d_a, ptr_a, buf_a.size * sizeof(int), cudaMemcpyHostToDevice));
+    CUDA_CHECK_ERROR(cudaMemcpy(d_b, ptr_b, buf_b.size * sizeof(int), cudaMemcpyHostToDevice));
 
     int chunk_size = buf_a.size > 256 ? 256 : buf_a.size;
     int remain_cnt = buf_a.size;
@@ -51,15 +59,16 @@ py::array_t<int> vec_add_naive_int(py::array_t<int> arr_a, py::array_t<int> arr_
         int add_cnt = remain_cnt > chunk_size ? chunk_size : remain_cnt;
         int offset = idx * chunk_size;
         kernel_vec_add<<<1, chunk_size>>>(d_a + offset, d_b + offset, d_result + offset, add_cnt);
-        cudaDeviceSynchronize();
+        CUDA_CHECK_ERROR(cudaDeviceSynchronize());
+        CUDA_CHECK_ERROR(cudaGetLastError());
         remain_cnt -= chunk_size;
         idx++;
     }
 
-    cudaMemcpy(ptr_result, d_result, buf_result.size * sizeof(int), cudaMemcpyDeviceToHost);
-    cudaFree(d_a);
-    cudaFree(d_b);
-    cudaFree(d_result);
+    CUDA_CHECK_ERROR(cudaMemcpy(ptr_result, d_result, buf_result.size * sizeof(int), cudaMemcpyDeviceToHost));
+    CUDA_CHECK_ERROR(cudaFree(d_a));
+    CUDA_CHECK_ERROR(cudaFree(d_b));
+    CUDA_CHECK_ERROR(cudaFree(d_result));
 
     return result;
 }
