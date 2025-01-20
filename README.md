@@ -119,6 +119,7 @@ The whitepaper is normally organized as follows:
     - https://leimao.github.io/blog/CUDA-Cooperative-Groups/
 - https://stackoverflow.com/questions/22278631/what-does-pragma-unroll-do-exactly-does-it-affect-the-number-of-threads
 - Debugging in VSCode: https://www.youtube.com/watch?v=gN3XeFwZ4ng
+- [Nsight Compute Documentation](https://docs.nvidia.com/nsight-compute/NsightComputeCli/index.html)
 - Optimal Blocksize: https://forums.developer.nvidia.com/t/how-to-choose-how-many-threads-blocks-to-have/55529
 - [1D, 2D and 3D thread allocation in CUDA](https://erangad.medium.com/1d-2d-and-3d-thread-allocation-for-loops-in-cuda-e0f908537a52)
 - https://siboehm.com/articles/22/CUDA-MMM
